@@ -52,6 +52,7 @@ class NumericalIntegrator:
         # Map the nodes from [-1, 1] to [a, b]
         transformed_nodes = 0.5 * (self.b - self.a) * nodes + 0.5 * (self.a + self.b)
         result = np.dot(weights, self.function(transformed_nodes))
+        
         return 0.5 * (self.b - self.a) * result
 
     def _tanh_sinh(self, n_points: int, h: float = 1.0) -> float:
@@ -78,4 +79,5 @@ class NumericalIntegrator:
         # Map the nodes from [-1, 1] to [a, b]
         transformed_nodes = 0.5 * (self.b - self.a) * u + 0.5 * (self.a + self.b)
         result = np.dot(w, self.function(transformed_nodes))
+
         return 0.5 * (self.b - self.a) * result
