@@ -17,7 +17,7 @@ def main(K, S, r, q, sigma, tau_max, l, m, n, p, eta, method):
     # TODO:Initialize B_tau for i = 1 to n using eq 7
 
     for j in range(m):
-        # TODO: write 10,11
+        # TODO: write 10, 11
         a = np.zeros(n)
 
         for i in range(1,n+1):
