@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import norm
-from utils.integration import NumericalIntegrator
+from utils.Integration import NumericalIntegrator
 from utils.Chebyshev import interpolate_B
 
 
