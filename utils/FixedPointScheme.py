@@ -7,7 +7,7 @@ from utils.Chebyshev import interpolate_B
 class FixedPointIterator:
     def __init__(self, sigma, r, q, K, a, tau_max, B_tau0, tau, B_tau, n_points, method):
         """
-        Initializes the KappaFunctions class with common parameters.
+        Initializes the fixed point iterator class with common parameters.
 
         Parameters:
             sigma (float): The volatility parameter.
@@ -161,8 +161,8 @@ class FixedPointIterator:
 
         f_tau, f_prime_tau = self.f_tau(Jacobi_Newton=Jacobi_Newton)
         step_size = (self.B_tau - f_tau) / (f_prime_tau - 1)
-        eta = 1.0
 
         # TODO: Tuning for hyper-parameter eta.
+        eta = 1.0
         
         return self.B_tau + eta * step_size
