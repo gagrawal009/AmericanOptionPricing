@@ -53,10 +53,11 @@ def main(K, S, r, q, sigma, tau_max, l, m, n, p, eta, method):
         )
         if j == 0:
             # Jacobi-Newton iteration
-            B_tau[1:] = FP.iteration(Jacobi_Newton=True, eta=eta/m, n_jobs=-1)
+            B_tau[1:] = FP.iteration(Jacobi_Newton=True, eta=eta, n_jobs=-1)
         else:
             # ordinary Richardson iteration
-            B_tau[1:] = FP.iteration(Jacobi_Newton=False, eta=eta/m, n_jobs=-1)
+            B_tau[1:] = FP.iteration(Jacobi_Newton=False, eta=eta, n_jobs=-1)
+        eta = eta * 0.5
 
     # Compute the American put primium
     AP = AmericanPremiumCalculator(
