@@ -35,7 +35,6 @@ class FixedPointIterator:
         self.n_points = n_points
         self.method = method
 
-
     def d_plus_minus(self, s, z, sign):
         """
         Vectorized calculation of d+ or d- values.
@@ -122,7 +121,10 @@ class FixedPointIterator:
     
     def f_tau_single(self, tau, B_tau, Jacobi_Newton=True):
         """
-        Calculates the f and f_prime functions for a single tau and B_tau.
+        Calculates the f and f_prime functions given tau.
+
+        Parameters:
+            Jacobi_Newton (bool): If True, use Jacobi_Newton scheme; else, use ordinary Richardson scheme.
 
         Returns:
             float, float: The value of f and f_prime.
