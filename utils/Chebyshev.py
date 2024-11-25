@@ -1,6 +1,52 @@
 import numpy as np
 
 
+def compute_coefficient(f_values):
+    """
+    Computes the coefficients a_k for Chebyshev interpolation.
+
+    Parameters:
+        f_values (ndarray): Array of function values at Chebyshev nodes z_i.
+
+    Returns:
+        ndarray: Array of coefficients a_k.
+    """
+    n = len(f_values) - 1   # Since z_array has n+1 points from z_0 to z_n, so does f(z)
+    weights = np.ones(n + 1)
+    weights[0] = 0.5   # Halve the first term
+    weights[-1] = 0.5  # Halve the last term
+
+    # Initialize the array for coefficients a_k
+    a_k = np.zeros(n + 1)
+
+    # Compute a_0
+    sum_k0 = np.sum(weights * f_values)
+    a_k[0] = (1 / n) * sum_k0
+
+    # Compute a_k for k = 1 to n - 1
+    i_array = np.arange(n + 1)  # i from 0 to n
+    k_array = np.arange(1, n)   # k from 1 to n - 1
+    k_i_matrix = np.outer(k_array, i_array)      # Outer product to get k * i
+    cos_matrix = np.cos(k_i_matrix * np.pi / n)  # Compute cos(k * i * pi / n)
+
+    # Multiply weights and f_values
+    weighted_f_values = weights * f_values
+
+    # Compute the sums for each k using matrix multiplication
+    sums_k = cos_matrix @ weighted_f_values  # Shape (n - 1,)
+
+    # Compute a_k for k = 1 to n - 1
+    a_k[1:n] = (2 / n) * sums_k
+
+    # Compute a_n
+    signs = (-1) ** i_array  # Compute (-1)^i for i from 0 to n
+    sum_kn = np.sum(weights * f_values * signs)
+    a_k[n] = (1 / n) * sum_kn
+
+    return a_k
+
+
+
 def chebyshev_approximation(z, a):
     """
     Performs Chebyshev approximation by Clenshaw algorithm.
