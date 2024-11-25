@@ -58,15 +58,19 @@ def chebyshev_approximation(z, a):
     Returns:
         float or ndarray: The value(s) of the Chebyshev series at point(s) z.
     """
+    z = np.atleast_1d(z)  # Ensure z is at least 1D array
     n = len(a) - 1
-    b = np.zeros(n + 2)
-    b[n] = a[n]
+    b = np.zeros((n + 2, len(z)))  # Adjust b to be 2D to handle arrays
+    b[n, :] = a[n]
     for k in range(n - 1, 0, -1):
-        b[k] = a[k] + 2 * z * b[k+1] - b[k+2]
-    
-    fc = a[0] + b[1] * z - b[2]
+        b[k, :] = a[k] + 2 * z * b[k + 1, :] - b[k + 2, :]
+    fc = a[0] + b[1, :] * z - b[2, :]
 
-    return fc
+    # If input z was scalar, return scalar output
+    if fc.size == 1:
+        return fc[0]
+    else:
+        return fc
 
 def interpolate_B(tau, a, tau_max, B_tau0):
     """
@@ -81,8 +85,16 @@ def interpolate_B(tau, a, tau_max, B_tau0):
     Returns:
         float or ndarray: The interpolated value(s) of B at the specified tau.
     """
+    tau = np.atleast_1d(tau)  # Ensure tau is at least 1D array
     z = 2 * np.sqrt(tau) / np.sqrt(tau_max) - 1
     qc = chebyshev_approximation(z=z, a=a)
+
+    # # Ensure qc is non-negative
+    # qc = np.maximum(qc, 0)
     B_tau = B_tau0 * np.exp(np.sqrt(qc))
 
-    return B_tau
+    # If input tau was scalar, return scalar output
+    if B_tau.size == 1:
+        return B_tau[0]
+    else:
+        return B_tau
