@@ -1,10 +1,10 @@
 import numpy as np
 from scipy.stats import norm
-from utils.Integration import NumericalIntegrator
-from utils.Chebyshev import interpolate_B
+from Integration import NumericalIntegrator
+from Chebyshev import interpolate_B
 
 
-class AmericanPrimiumCalculator:
+class AmericanPremiumCalculator:
     def __init__(self, sigma, r, q, S, K, a, tau_max, B_tau0, tau, n_points, method):
         """
         Initializes the class with common parameters.
@@ -62,6 +62,7 @@ class AmericanPrimiumCalculator:
         def integrand(z):
             t = z**2
             t_diff = self.tau - t
+            t_diff = np.maximum(1e-10, t_diff)
             exp_term = np.exp(-self.r * t)
             B_tau_minus_t = interpolate_B(tau=t_diff, a=self.a, tau_max=self.tau_max, B_tau0=self.B_tau0)
             B_ratio = self.S / B_tau_minus_t
@@ -84,6 +85,7 @@ class AmericanPrimiumCalculator:
         def integrand(z):
             t = z**2
             t_diff = self.tau - t
+            t_diff = np.maximum(1e-10, t_diff)
             exp_term = np.exp(-self.q * t)
             B_tau_minus_t = interpolate_B(tau=t_diff, a=self.a, tau_max=self.tau_max, B_tau0=self.B_tau0)
             B_ratio = self.S / B_tau_minus_t
@@ -103,5 +105,7 @@ class AmericanPrimiumCalculator:
         Returns:
             float: The value of the premium.
         """
-        return self.integral1() - self.integral2()
+        integral1_value = self.integral1()
+        integral2_value = self.integral2()
+        return integral1_value - integral2_value
     
