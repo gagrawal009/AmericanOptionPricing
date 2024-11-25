@@ -67,6 +67,7 @@ class NumericalIntegrator:
             float: The numerical approximation of the integral.
         """
         s = n_points // 2
+        h = h / s  # Adjust h inversely with s
         k_values = np.arange(-s, s + 1)
         t = k_values * h
         sinh_t = np.sinh(t)
