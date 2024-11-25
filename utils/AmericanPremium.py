@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import norm
-from Integration import NumericalIntegrator
-from Chebyshev import interpolate_B
+from .Integration import NumericalIntegrator
+from .Chebyshev import interpolate_B
 
 
 class AmericanPremiumCalculator:

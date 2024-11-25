@@ -1,8 +1,8 @@
 import numpy as np
-from QDApproximation import HalleySolver
-from AmericanPremium import AmericanPremiumCalculator
-from Chebyshev import compute_coefficient
-from FixedPointScheme import FixedPointIterator
+from .QDApproximation import HalleySolver
+from .AmericanPremium import AmericanPremiumCalculator
+from .Chebyshev import compute_coefficient
+from .FixedPointScheme import FixedPointIterator
 
 
 def main(K, S, r, q, sigma, tau_max, l, m, n, p, eta, method):
